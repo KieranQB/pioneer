@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
 
     signal(SIGINT, my_handler);
     
-    RCLCPP_DEBUG(this->get_logger(),"Trying to connect to robot...");
+    // RCLCPP_DEBUG(this->get_logger(),"Trying to connect to robot...");
     ArRobotConnector robotConnector(&parser, robot);
     if(!robotConnector.connectRobot()) {
         ArLog::log(ArLog::Terse, "simpleConnect: Could not connect to the robot.");
@@ -91,9 +91,9 @@ int main(int argc, char** argv) {
     float rotationSpeed = 0.0;
     
     
-    RCLCPP_DEBUG(this->get_logger(),"Run Async");
+    // RCLCPP_DEBUG(aNode->get_logger(),"Run Async");
     robot->runAsync(true);
-    RCLCPP_DEBUG(this->get_logger(),"Enable Motors");
+    // RCLCPP_DEBUG(aNode->get_logger(),"Enable Motors");
     robot->enableMotors();
 
     auto aNode = std::make_shared<ariaNode>(&forwardSpeed, &rotationSpeed);
@@ -106,14 +106,14 @@ int main(int argc, char** argv) {
     */
     while (!stopRunning) {
         rclcpp::spin_some(aNode);
-        RCLCPP_DEBUG(aNode->get_logger(), "sending motor command.");
+        // RCLCPP_DEBUG(aNode->get_logger(), "sending motor command.");
             robot->lock();
             robot->setVel(forwardSpeed * 500);
             robot->setRotVel(rotationSpeed * 50);
             robot->unlock();
-            RCLCPP_DEBUG(aNode->get_logger(), "motor command sent.");
-            RCLCPP_DEBUG(aNode->get_logger(), "forward speed is now %f.", forwardSpeed);
-            RCLCPP_DEBUG(aNode->get_logger(), "rotational speed is now %f.", rotationSpeed);
+            // RCLCPP_DEBUG(aNode->get_logger(), "motor command sent.");
+            // RCLCPP_DEBUG(aNode->get_logger(), "forward speed is now %f.", forwardSpeed);
+            // RCLCPP_DEBUG(aNode->get_logger(), "rotational speed is now %f.", rotationSpeed);
     }
     RCLCPP_DEBUG(aNode->get_logger(), "After Spin");
 
